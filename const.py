@@ -1,0 +1,1 @@
+SettingsDataPATH = 'SettingsData.json'
