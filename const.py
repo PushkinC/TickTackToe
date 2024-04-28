@@ -1,1 +1,1 @@
-SettingsDataPATH = 'SettingsData.json'
+SettingsDataPATH = 'Saves/SettingsData.json'

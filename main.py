@@ -13,7 +13,8 @@ def btn_click(btn):
             'FPS': int(inp_FPS.get()),
             'width': int(inp_width.get()),
             'height': int(inp_height.get()),
-            'name': inp_name.get()
+            'name': inp_name.get(),
+            "myPORT": int(inp_port.get())
         }
         json.dump(data, f)
 
@@ -25,7 +26,7 @@ def btn_click(btn):
     #
     app.destroy()
     if btn:
-        import Game
+        import Game.Game
 
 if not os.path.exists(SettingsDataPATH):
     print(f"Нет файла {SettingsDataPATH}")
@@ -39,13 +40,14 @@ with open(SettingsDataPATH, 'rt') as f:
         SettingsData = json.load(f)
     except json.decoder.JSONDecodeError:
         isEmpty = True
-        print(f"Скорее всего файл {SettingsDataPATH} пустой")
+        print(f"Файл {SettingsDataPATH} пустой")
         SettingsData = {
             "URL": "192.168.255.255:0000",
             "FPS": 30,
             "width": 500,
             "height": 500,
-            "name": "name"
+            "name": "name",
+            "myPORT": 4444
         }
     except Exception as ex:
         print(ex)
@@ -103,14 +105,14 @@ inp_name = ttk.Entry(frame3)
 inp_name.insert(0, SettingsData['name'])
 inp_name.pack(fill='x', padx=5, expand=True)
 
-# frame6 = ttk.Frame(app)
-# frame6.pack(fill='x')
-#
-# label_name = ttk.Label(frame6, text='Выберите оружие:')
-# label_name.pack(side=tk.LEFT, padx=5, pady=5)
-# inp_weapon = ttk.Combobox(frame6, values=list(lst_Weapons.keys()), state='readonly')
-# #inp_weapon.set(list(lst_Weapons.keys())[0])
-# inp_weapon.pack(fill='x', padx=5, expand=True)
+frame6 = ttk.Frame(app)
+frame6.pack(fill='x')
+
+label_name = ttk.Label(frame6, text='Введите ваш порт')
+label_name.pack(side=tk.LEFT, padx=5, pady=5)
+inp_port = ttk.Entry(frame6)
+inp_port.insert(0, SettingsData['myPORT'])
+inp_port.pack(fill='x', padx=5, expand=True)
 
 frame7 = ttk.Frame(app)
 frame7.pack(fill='x')
