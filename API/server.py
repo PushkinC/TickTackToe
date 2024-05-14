@@ -1,5 +1,6 @@
 import socket
 from Game.GameConst import MYPORT
+from threading import Thread
 
 
 class Server(socket.socket):
@@ -8,13 +9,25 @@ class Server(socket.socket):
         self.bind(('', MYPORT))
         self.listen(1)
 
-    def start(self):
+    def start(self, btn):
         self.conn, self.addr = self.accept()
-        with self.conn:
-            print(f"Connected by {self.addr}")
-            while True:
-                data = self.conn.recv(1024)
-                if not data:
-                    break
-                # self.conn.sendall(data)
-                print(data)
+        print('Соединение установлено(сервер)')
+        btn.pack()
+        # with self.conn:
+        #     print(f"Connected by {self.addr}")
+        #     while True:
+        #         data = self.conn.recv(1024)
+        #         if data:
+        #             print(data)
+        #             break
+        #         print(data)
+
+    def recv(self, f):
+        data = str(self.conn.recv(1024), encoding='UTF-8')
+        print(data)
+        f[0](list(map(int, data.split(' '))), 2, f[1])
+
+    def send(self, text_data):
+        print('Start sendall...', end=' ')
+        self.conn.sendall(bytes(text_data, encoding='utf-8'))
+        print('Sandall complete')

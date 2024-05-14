@@ -1,14 +1,27 @@
 from API.server import Server
 from API.client import Client
-import threading
+from threading import Thread
 
 
+class API:
+    def __init__(self):
+        print('инит')
 
-my = Server()
-other = Client()
+    def Send(self, text: str):
+        print('Start thread...', end=' ')
+        Thread(target=lambda: self.conn.send(text)).start()
 
-thread = threading.Thread(target=lambda: my.start())
-thread.start()
 
-# thread = threading.Thread(target=lambda: other)
-# thread.start()
+    def recv(self, f):
+        return self.conn.recv(f)
+
+    def CreateLobby(self, btn):
+        print('Создаю лобби')
+        self.conn = Server()
+        self.conn.start(btn)
+
+    def ConnectToLobby(self, btn):
+        print('Подключаюсь')
+        self.conn = Client(btn)
+        # thread = threading.Thread(target=lambda: conn.())
+        # thread.start()

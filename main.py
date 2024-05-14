@@ -3,6 +3,8 @@ import tkinter as tk
 from const import *
 import json
 import os
+from API.API import API
+from Lobby import Lobby
 
 
 
@@ -25,8 +27,18 @@ def btn_click(btn):
     #     json.dump(data, f)
     #
     app.destroy()
-    if btn:
-        import Game.Game
+    api = API()
+    match btn:
+        case 0:
+            pass
+        case 1:
+            Lobby('хост', api.CreateLobby, api)
+
+        case 2:
+            Lobby('игрок', api.ConnectToLobby, api)
+
+
+
 
 if not os.path.exists(SettingsDataPATH):
     print(f"Нет файла {SettingsDataPATH}")
@@ -117,13 +129,17 @@ inp_port.pack(fill='x', padx=5, expand=True)
 frame7 = ttk.Frame(app)
 frame7.pack(fill='x')
 
-save_btn = ttk.Button(frame7, command=lambda: btn_click(False))
+save_btn = ttk.Button(frame7, command=lambda: btn_click(0))
 save_btn['text'] = 'Сохранить'
 save_btn.pack(fill='x', side=tk.LEFT, padx=5, pady=5)
 
-save_and_start_btn = ttk.Button(frame7, command=lambda: btn_click(True))
-save_and_start_btn['text'] = 'Сохранить и запустить'
+save_and_start_btn = ttk.Button(frame7, command=lambda: btn_click(1))
+save_and_start_btn['text'] = 'Сохранить и запустить лобби'
 save_and_start_btn.pack(fill='x', side=tk.RIGHT, padx=5, pady=5)
+
+save_and_connect_btn = ttk.Button(frame7, command=lambda: btn_click(2))
+save_and_connect_btn['text'] = 'Сохранить и подключиться'
+save_and_connect_btn.pack(fill='x', side=tk.RIGHT, padx=5, pady=5)
 
 app.mainloop()
 
