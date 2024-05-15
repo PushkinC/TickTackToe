@@ -4,11 +4,12 @@ from threading import Thread
 
 
 class API:
+    SERVER = 1
+    CLIENT = 2
     def __init__(self):
-        print('инит')
+        pass
 
     def Send(self, text: str):
-        print('Start thread...', end=' ')
         Thread(target=lambda: self.conn.send(text)).start()
 
 
@@ -16,12 +17,15 @@ class API:
         return self.conn.recv(f)
 
     def CreateLobby(self, btn):
-        print('Создаю лобби')
+        self.typecon = self.SERVER
         self.conn = Server()
         self.conn.start(btn)
 
+
     def ConnectToLobby(self, btn):
-        print('Подключаюсь')
+        self.typecon = self.CLIENT
         self.conn = Client(btn)
-        # thread = threading.Thread(target=lambda: conn.())
-        # thread.start()
+
+
+    def close(self):
+        self.conn.close()

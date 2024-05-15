@@ -24,10 +24,7 @@ class Server(socket.socket):
 
     def recv(self, f):
         data = str(self.conn.recv(1024), encoding='UTF-8')
-        print(data)
         f[0](list(map(int, data.split(' '))), 2, f[1])
 
     def send(self, text_data):
-        print('Start sendall...', end=' ')
         self.conn.sendall(bytes(text_data, encoding='utf-8'))
-        print('Sandall complete')
